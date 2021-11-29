@@ -13,6 +13,12 @@ export default {
 		Header,
 		Table,
 	},
+	data() {
+		return {};
+	},
+	created() {
+		this.$store.dispatch('GET_INFO_FROM_API');
+	},
 };
 </script>
 

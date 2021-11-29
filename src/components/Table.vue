@@ -10,7 +10,11 @@
 				</tr>
 			</thead>
 			<tbody>
-				<TableRow />
+				<TableRow
+					v-for="(info, index) in infoState"
+					:key="index"
+					:info="info"
+				/>
 			</tbody>
 		</table>
 	</div>
@@ -18,11 +22,19 @@
 
 <script>
 import TableRow from './TableRow.vue';
+import { mapGetters } from 'vuex';
 
 export default {
 	name: 'Table',
 	components: {
 		TableRow,
+	},
+	computed: {
+		...mapGetters(['INFO']),
+		infoState() {
+			let info = this.INFO;
+			return info;
+		},
 	},
 };
 </script>

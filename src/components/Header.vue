@@ -1,5 +1,5 @@
 <template>
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<nav class="navbar navbar-expand-lg navbar-light bg-light mb-2">
 		<div class="container">
 			<select class="form-select" aria-label="Default select example">
 				<option selected disabled hidden>Выберите поле</option>
