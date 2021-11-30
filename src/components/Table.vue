@@ -47,7 +47,7 @@ export default {
 					return this.info;
 				}
 				if (this.selectedValue == 1) {
-					value = elem.Name;
+					value = elem.Name.toLowerCase();
 				}
 				if (this.selectedValue == 2) {
 					value = elem.Quantity;
@@ -57,16 +57,18 @@ export default {
 				}
 
 				if (this.selectedCondition == 1) {
-					return value === this.inputValue;
+					return value == this.inputValue.toLowerCase();
 				}
 				if (this.selectedCondition == 2) {
-					return value.includes(this.inputValue);
+					return String(value).includes(
+						this.inputValue.toLowerCase()
+					);
 				}
 				if (this.selectedCondition == 3) {
-					return value > this.inputValue;
+					return value > this.inputValue.toLowerCase();
 				}
 				if (this.selectedCondition == 4) {
-					return value < this.inputValue;
+					return value < this.inputValue.toLowerCase();
 				}
 			});
 		},

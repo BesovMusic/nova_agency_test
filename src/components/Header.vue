@@ -66,6 +66,7 @@ export default {
 		},
 		valueEntered() {
 			this.SET_INPUT_VALUE(this.inputValue);
+			console.log(typeof this.inputValue);
 		},
 	},
 };
