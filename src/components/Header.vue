@@ -28,24 +28,15 @@
 				<option value="3">Больше</option>
 				<option value="4">Меньше</option>
 			</select>
-			<div class="input-group">
-				<input
-					type="text"
-					class="form-control"
-					placeholder="Введите значение"
-					aria-label="Введите значение"
-					aria-describedby="button-addon2"
-					v-model="inputValue"
-					@input="valueEntered"
-				/>
-				<!-- <button
-					class="btn btn-success"
-					type="button"
-					id="button-addon2"
-				>
-					Найти
-				</button> -->
-			</div>
+			<input
+				type="text"
+				class="form-control"
+				placeholder="Введите значение"
+				aria-label="Введите значение"
+				aria-describedby="button-addon2"
+				v-model="inputValue"
+				@input="valueEntered"
+			/>
 		</div>
 	</nav>
 </template>

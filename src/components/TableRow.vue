@@ -14,7 +14,12 @@ export default {
 		info: {
 			type: Object,
 			default() {
-				return {};
+				return {
+					Date: '',
+					Name: '',
+					Quantity: '',
+					Distance: '',
+				};
 			},
 		},
 	},

@@ -1,6 +1,6 @@
 <template>
 	<transition name="component-fade" mode="out-in">
-		<Loader v-if="this.$store.state.loading" />
+		<Loader v-if="this.$store.getters.loadingState" />
 		<div class="page" v-else>
 			<Header />
 			<Table />
@@ -27,8 +27,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import url('../node_modules/bootstrap/dist/css/bootstrap.min.css');
-
 .component-fade-enter-active,
 .component-fade-leave-active {
 	transition: opacity 0.5s ease;

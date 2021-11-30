@@ -10,17 +10,20 @@ export default createStore({
 		loading: true,
 	},
 	getters: {
-		INFO(state) {
+		info(state) {
 			return state.info;
 		},
-		INPUT_VALUE(state) {
+		inputValue(state) {
 			return state.inputValue;
 		},
-		SELECTED_VALUE(state) {
+		selectedValue(state) {
 			return state.selectedValue;
 		},
-		SELECTED_CONDITION(state) {
+		selectedCondition(state) {
 			return state.selectedCondition;
+		},
+		loadingState(state) {
+			return state.loading;
 		},
 	},
 	mutations: {
