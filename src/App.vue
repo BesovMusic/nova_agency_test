@@ -1,20 +1,24 @@
 <template>
-	<Header />
-	<Table />
+	<transition name="component-fade" mode="out-in">
+		<Loader v-if="this.$store.state.loading" />
+		<div class="page" v-else>
+			<Header />
+			<Table />
+		</div>
+	</transition>
 </template>
 
 <script>
 import Header from './components/Header.vue';
 import Table from './components/Table.vue';
+import Loader from './components/Loader.vue';
 
 export default {
 	name: 'App',
 	components: {
 		Header,
 		Table,
-	},
-	data() {
-		return {};
+		Loader,
 	},
 	created() {
 		this.$store.dispatch('GET_INFO_FROM_API');
@@ -25,11 +29,13 @@ export default {
 <style lang="scss">
 @import url('../node_modules/bootstrap/dist/css/bootstrap.min.css');
 
-#app {
-	font-family: Avenir, Helvetica, Arial, sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	text-align: center;
-	color: #2c3e50;
+.component-fade-enter-active,
+.component-fade-leave-active {
+	transition: opacity 0.5s ease;
+}
+
+.component-fade-enter-from,
+.component-fade-leave-to {
+	opacity: 0;
 }
 </style>

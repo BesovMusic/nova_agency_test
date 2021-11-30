@@ -4,15 +4,38 @@ import axios from 'axios';
 export default createStore({
 	state: {
 		info: [],
+		inputValue: '',
+		selectedValue: 0,
+		selectedCondition: 0,
+		loading: true,
 	},
 	getters: {
 		INFO(state) {
 			return state.info;
 		},
+		INPUT_VALUE(state) {
+			return state.inputValue;
+		},
+		SELECTED_VALUE(state) {
+			return state.selectedValue;
+		},
+		SELECTED_CONDITION(state) {
+			return state.selectedCondition;
+		},
 	},
 	mutations: {
 		SET_INFO_TO_STATE: (state, info) => {
 			state.info = info;
+			state.loading = false;
+		},
+		SET_SELECTED_VALUE: (state, value) => {
+			state.selectedValue = value;
+		},
+		SET_SELECTED_CONDITION: (state, condition) => {
+			state.selectedCondition = condition;
+		},
+		SET_INPUT_VALUE: (state, value) => {
+			state.inputValue = value;
 		},
 	},
 	actions: {
@@ -29,5 +52,4 @@ export default createStore({
 				});
 		},
 	},
-	modules: {},
 });
