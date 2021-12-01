@@ -10,12 +10,26 @@
 		</thead>
 		<tbody>
 			<TableRow
-				v-for="(row, index) in filteredRows"
+				v-for="(row, index) in displayedRows"
 				:key="index"
 				:row="row"
 			/>
 		</tbody>
 	</table>
+	<nav>
+		<ul class="pagination">
+			<li
+				v-for="(pageNumber, index) in pages"
+				:key="index"
+				:class="{ active: page == pageNumber }"
+				class="page-item"
+				aria-current="page"
+				@click="page = pageNumber"
+			>
+				<span class="page-link">{{ pageNumber }}</span>
+			</li>
+		</ul>
+	</nav>
 </template>
 
 <script>
@@ -35,6 +49,13 @@ export default {
 	name: 'Table',
 	components: {
 		TableRow,
+	},
+	data() {
+		return {
+			page: 1,
+			perPage: 7,
+			pages: [],
+		};
 	},
 	computed: {
 		...mapGetters([
@@ -84,6 +105,33 @@ export default {
 						return value < searchValue;
 				}
 			});
+		},
+		displayedRows() {
+			return this.paginate(this.filteredRows);
+		},
+	},
+	methods: {
+		setPages() {
+			this.pages.splice(0);
+			let numberOfPages = Math.ceil(
+				this.filteredRows.length / this.perPage
+			);
+			for (let i = 1; i <= numberOfPages; i++) {
+				this.pages.push(i);
+			}
+		},
+		paginate(rows) {
+			let page = this.page;
+			let perPage = this.perPage;
+			let from = page * perPage - perPage;
+			let to = page * perPage;
+			return rows.slice(from, to);
+		},
+	},
+	watch: {
+		filteredRows() {
+			this.setPages();
+			this.page = 1;
 		},
 	},
 };
