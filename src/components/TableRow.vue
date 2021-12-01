@@ -1,25 +1,22 @@
 <template>
 	<tr>
-		<th scope="row">{{ info.Date }}</th>
-		<td>{{ info.Name }}</td>
-		<td>{{ info.Quantity }}</td>
-		<td>{{ info.Distance }}</td>
+		<th scope="row">{{ row.Date }}</th>
+		<td>{{ row.Name }}</td>
+		<td>{{ row.Quantity }}</td>
+		<td>{{ row.Distance }}</td>
 	</tr>
 </template>
 
 <script>
+import Row from '../DTO/Row';
+
 export default {
 	name: 'TableRow',
 	props: {
-		info: {
-			type: Object,
+		row: {
+			type: Row,
 			default() {
-				return {
-					Date: '',
-					Name: '',
-					Quantity: '',
-					Distance: '',
-				};
+				return new Row();
 			},
 		},
 	},

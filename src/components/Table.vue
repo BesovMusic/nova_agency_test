@@ -1,28 +1,35 @@
 <template>
-	<div class="container">
-		<table class="table table-bordered shadow-sm">
-			<thead>
-				<tr class="table-warning">
-					<th scope="col">Дата</th>
-					<th scope="col">Название</th>
-					<th scope="col">Количество</th>
-					<th scope="col">Расстояние</th>
-				</tr>
-			</thead>
-			<tbody>
-				<TableRow
-					v-for="(info, index) in infoState"
-					:key="index"
-					:info="info"
-				/>
-			</tbody>
-		</table>
-	</div>
+	<table class="table table-bordered shadow-sm">
+		<thead>
+			<tr class="table-warning">
+				<th scope="col">Дата</th>
+				<th scope="col">Название</th>
+				<th scope="col">Количество</th>
+				<th scope="col">Расстояние</th>
+			</tr>
+		</thead>
+		<tbody>
+			<TableRow
+				v-for="(row, index) in filteredRows"
+				:key="index"
+				:row="row"
+			/>
+		</tbody>
+	</table>
 </template>
 
 <script>
 import TableRow from './TableRow.vue';
 import { mapGetters } from 'vuex';
+import {
+	SELECT_NAME,
+	SELECT_QUANTITY,
+	SELECT_DISTANCE,
+	CONDITION_EQUAL,
+	CONDITION_INCLUDES,
+	CONDITION_MORE,
+	CONDITION_LESS,
+} from '../store/index';
 
 export default {
 	name: 'Table',
@@ -31,44 +38,50 @@ export default {
 	},
 	computed: {
 		...mapGetters([
-			'info',
+			'rows',
 			'selectedValue',
-			'inputValue',
+			'searchValue',
 			'selectedCondition',
 		]),
-		infoState() {
-			return this.info.filter((elem) => {
+		isDefaultSelected() {
+			return (
+				!this.searchValue ||
+				!this.selectedValue ||
+				!this.selectedCondition
+			);
+		},
+		filteredRows() {
+			if (this.isDefaultSelected) {
+				return this.rows;
+			}
+			return this.rows.filter((row) => {
+				const selectedValue = Number(this.selectedValue);
+				const selectedCondition = Number(this.selectedCondition);
+				const searchValue = this.searchValue.toLowerCase();
 				let value = '';
-				if (
-					this.inputValue === '' ||
-					this.selectedValue == 0 ||
-					this.selectedCondition == 0
-				) {
-					return this.info;
-				}
-				if (this.selectedValue == 1) {
-					value = elem.Name.toLowerCase();
-				}
-				if (this.selectedValue == 2) {
-					value = elem.Quantity;
-				}
-				if (this.selectedValue == 3) {
-					value = elem.Distance;
+
+				// Преобразуем поисковые данные в один формат
+				switch (selectedValue) {
+					case SELECT_NAME:
+						value = row.Name.toLowerCase();
+						break;
+					case SELECT_QUANTITY:
+						value = row.Quantity;
+						break;
+					case SELECT_DISTANCE:
+						value = row.Distance;
+						break;
 				}
 
-				if (this.selectedCondition == 1) {
-					return value == this.inputValue.toLowerCase();
-				}
-				if (this.selectedCondition == 2) {
-					return String(value).includes(
-						this.inputValue.toLowerCase()
-					);
-				}
-				if (this.selectedCondition == 3) {
-					return value > this.inputValue.toLowerCase();
-				}
-				if (this.selectedCondition == 4) {
-					return value < this.inputValue.toLowerCase();
+				switch (selectedCondition) {
+					case CONDITION_EQUAL:
+						return value == searchValue;
+					case CONDITION_INCLUDES:
+						return String(value).includes(searchValue);
+					case CONDITION_MORE:
+						return value > searchValue;
+					case CONDITION_LESS:
+						return value < searchValue;
 				}
 			});
 		},

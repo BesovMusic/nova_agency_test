@@ -1,41 +1,31 @@
 <template>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light mb-2">
 		<div class="container">
-			<select
-				v-model="selectedValue"
-				class="form-select"
-				aria-label="Default select example"
-				@change="valueSelected"
-			>
-				<option value="0" selected disabled hidden>
-					Выберите поле
+			<select v-model="selectedValue" class="form-select">
+				<option disabled hidden value="0">Выберите поле</option>
+				<option
+					v-for="value in selectorValues"
+					:key="value.value"
+					:value="value.value"
+				>
+					{{ value.name }}
 				</option>
-				<option value="1">Название</option>
-				<option value="2">Количество</option>
-				<option value="3">Расстояние</option>
 			</select>
-			<select
-				v-model="selectedCondition"
-				class="form-select"
-				aria-label="Default select example"
-				@change="conditionSelected"
-			>
-				<option value="0" selected disabled hidden>
-					Выберите условие
+			<select v-model="selectedCondition" class="form-select">
+				<option value="0" disabled hidden>Выберите условие</option>
+				<option
+					v-for="condition in selectorConditions"
+					:key="condition.value"
+					:value="condition.value"
+				>
+					{{ condition.name }}
 				</option>
-				<option value="1">Равно</option>
-				<option value="2">Содержит</option>
-				<option value="3">Больше</option>
-				<option value="4">Меньше</option>
 			</select>
 			<input
 				type="text"
 				class="form-control"
 				placeholder="Введите значение"
-				aria-label="Введите значение"
-				aria-describedby="button-addon2"
-				v-model="inputValue"
-				@input="valueEntered"
+				v-model="searchValue"
 			/>
 		</div>
 	</nav>
@@ -43,30 +33,43 @@
 
 <script>
 import { mapMutations } from 'vuex';
+
 export default {
 	name: 'Header',
 	data() {
 		return {
-			inputValue: '',
+			searchValue: '',
 			selectedValue: 0,
 			selectedCondition: 0,
+			selectorValues: [
+				{ name: 'Название', value: '1' },
+				{ name: 'Количество', value: '2' },
+				{ name: 'Расстояние', value: '3' },
+			],
+			selectorConditions: [
+				{ name: 'Равно', value: '1' },
+				{ name: 'Содержит', value: '2' },
+				{ name: 'Больше', value: '3' },
+				{ name: 'Меньше', value: '4' },
+			],
 		};
 	},
 	methods: {
 		...mapMutations([
-			'SET_SELECTED_VALUE',
-			'SET_SELECTED_CONDITION',
-			'SET_INPUT_VALUE',
+			'setSelectedValue',
+			'setSelectedCondition',
+			'setSearchValue',
 		]),
-		valueSelected() {
-			this.SET_SELECTED_VALUE(this.selectedValue);
+	},
+	watch: {
+		searchValue(newValue) {
+			this.setSearchValue(newValue);
 		},
-		conditionSelected() {
-			this.SET_SELECTED_CONDITION(this.selectedCondition);
+		selectedValue(newValue) {
+			this.setSelectedValue(newValue);
 		},
-		valueEntered() {
-			this.SET_INPUT_VALUE(this.inputValue);
-			console.log(typeof this.inputValue);
+		selectedCondition(newValue) {
+			this.setSelectedCondition(newValue);
 		},
 	},
 };
